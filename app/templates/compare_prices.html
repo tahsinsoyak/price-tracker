@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiyat Karşılaştırması</title>
+    <style>
+        /* CSS stil tanımlamalarını buraya ekle */
+    </style>
+</head>
+<body>
+    <h1>Fiyat Karşılaştırması</h1>
+    <h2>{{ product.title }} Fiyatları</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Şirket</th>
+                <th>Fiyat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ product.product_company }}</td>
+                <td>{{ product.price }}</td>
+            </tr>
+            {% for same_product_price in same_product_prices %}
+            <tr>
+                <td>{{ same_product_price.product_company }}</td>
+                <td>{{ same_product_price.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // JavaScript kodlarını buraya ekle
+    </script>
+</body>
+</html>

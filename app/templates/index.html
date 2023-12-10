@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Karşılaştırma ve Stok Takibi</title>
+    <style>
+        /* CSS stil tanımlamalarını buraya ekle */
+    </style>
+</head>
+<body>
+    <h1>Ürün Karşılaştırma ve Stok Takibi</h1>
+
+    <!-- Add search form -->
+    <form action="{{ url_for('search_products') }}" method="post">
+        <label for="search">Ürün Ara:</label>
+        <input type="text" id="search" name="search">
+        <input type="submit" value="Ara">
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Fiyat</th>
+                <th>Şirket</th>
+                <th>Resimler</th>
+                <th>Teknik Özellikler</th>
+                <th>Oluşturulma Tarihi</th>
+                <th>Güncelleme Tarihi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.title }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.product_company }}</td>
+                <td>{{ product.images }}</td>
+                <td>{{ product.tech_spec_data }}</td>
+                <td>{{ product.created_at }}</td>
+                <td>{{ product.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Add a button to trigger price update -->
+    <form action="{{ url_for('update_prices') }}" method="post">
+        <input type="submit" value="Fiyatları Güncelle">
+    </form>
+
+    <script>
+        // JavaScript kodlarını buraya ekle
+    </script>
+</body>
+</html>
