@@ -3,55 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ürün Karşılaştırma ve Stok Takibi</title>
+    <title>Ürün Karşılaştırma</title>
+
+    <!-- Add Bootstrap CSS (you need to include Bootstrap in your project) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Optional: Add custom CSS -->
     <style>
-        /* CSS stil tanımlamalarını buraya ekle */
+        /* Your custom CSS styles here */
+        body {
+            padding: 20px;
+        }
+
+        /* Style for product images */
+        .product-image {
+            max-width: 100px; /* Adjust the max-width as needed */
+            max-height: 100px; /* Adjust the max-height as needed */
+        }
     </style>
 </head>
 <body>
-    <h1>Ürün Karşılaştırma ve Stok Takibi</h1>
+    <h1>Ürün Karşılaştırma</h1>
 
-    <!-- Add search form -->
-    <form action="{{ url_for('search_products') }}" method="post">
-        <label for="search">Ürün Ara:</label>
-        <input type="text" id="search" name="search">
-        <input type="submit" value="Ara">
+    <!-- Add search form with Bootstrap styling -->
+    <form action="{{ url_for('search_products') }}" method="post" class="mb-3">
+        <div class="input-group">
+            <input type="text" id="search" name="search" class="form-control" placeholder="Ürün Ara">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Ara</button>
+            </div>
+        </div>
     </form>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Ürün Adı</th>
-                <th>Fiyat</th>
-                <th>Şirket</th>
-                <th>Resimler</th>
-                <th>Teknik Özellikler</th>
-                <th>Oluşturulma Tarihi</th>
-                <th>Güncelleme Tarihi</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ product.title }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.product_company }}</td>
-                <td>{{ product.images }}</td>
-                <td>{{ product.tech_spec_data }}</td>
-                <td>{{ product.created_at }}</td>
-                <td>{{ product.updated_at }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Add a responsive table with Bootstrap styling -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Fiyat</th>
+                    <th>Şirket</th>
+                    <th>Resimler</th>
+                    <th>Teknik Özellikler</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Güncelleme Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.product_company }}</td>
+                    <td>
+                        {% set image_list = product.images[1:-1].split(', ') %}
+                        {% for image_url in image_list %}
+                            <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="product-image">
+                        {% endfor %}
+                    </td>
+                    <td>{{ product.tech_spec_data }}</td>
+                    <td>{{ product.created_at }}</td>
+                    <td>{{ product.updated_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Add a button to trigger price update -->
+    <!-- Add a button to trigger price update with Bootstrap styling -->
     <form action="{{ url_for('update_prices') }}" method="post">
-        <input type="submit" value="Fiyatları Güncelle">
+        <button type="submit" class="btn btn-primary">Fiyatları Güncelle</button>
     </form>
 
-    <script>
-        // JavaScript kodlarını buraya ekle
-    </script>
+    <!-- Optional: Add Bootstrap JS (you need to include Bootstrap in your project) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Your custom JavaScript code here -->
+
 </body>
 </html>

@@ -5,6 +5,8 @@ import time
 from datetime import datetime
 from peewee import DoesNotExist
 from flask import request
+from flask import redirect
+from flask import url_for
 
 
 app = Flask(__name__)
@@ -100,6 +102,30 @@ def update_prices():
     scrape_data()  # Call the function to update prices
     return render_template('index.html', products=Product.select())
 
+
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        # Get form data
+        url = request.form['url']
+
+        # Scrape data using the appropriate scraper function
+        product_data = trendyol_scraper(url)  # Replace with the actual scraper function
+
+        # Store scraped data in the database
+        new_product = Product.create(
+            title=product_data['title'],  # If available, adjust accordingly
+            price=product_data['price'],
+            images=str(product_data['images']),
+            tech_spec_data=str(product_data['tech_spec_data']),
+            created_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            updated_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            product_company='amazon'  # Specify the product company
+        )
+
+        return redirect(url_for('index'))
+
+    return render_template('add_product.html')
 
 
 # Flask uygulamasını çalıştırdıktan sonra zamanlanmış görevleri başlat

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Ekleme</title>
+    <style>
+        /* CSS stil tanımlamalarını buraya ekle */
+    </style>
+</head>
+<body>
+    <h1>Ürün Ekleme</h1>
+    <form action="{{ url_for('add_product') }}" method="post">
+        <label for="url">Ürün URL:</label>
+        <input type="text" id="url" name="url" required>
+        <br>
+        <input type="submit" value="Ürünü Ekle">
+    </form>
+
+    <script>
+        // JavaScript kodlarını buraya ekle
+    </script>
+</body>
+</html>

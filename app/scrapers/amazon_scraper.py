@@ -4,7 +4,7 @@ import random
 
 def amazon_scraper(product_url):
     # Kullanıcı ajanları dosyasını aç ve rastgele bir kullanıcı ajanı seç
-    with open('app/scrapers/user_agents/user-agents.txt', 'r') as file:
+    with open('scrapers/user_agents/user-agents.txt', 'r') as file:
         user_agents = file.readlines()
 
     random_user_agent = random.choice(user_agents)
