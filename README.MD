@@ -15,12 +15,13 @@ cd price-tracker
 
 ```bash
 python -m venv venv
-source venv/bin/activate
+.\venv\Scripts\activate
 ``` 
 
 3. Gerekli paketleri yükleyin.
 
 ```bash
+cd .\app\
 pip install -r requirements.txt
 ```
 
@@ -38,6 +39,7 @@ Tarayıcınızdan http://127.0.0.1:5000/ adresine gidin.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Ekran Görüntüleri
+
 
 ## Destek
 Eğer bu projeyi beğendiyseniz, lütfen ⭐️ ile işaretleyin. Ayrıca, herhangi bir sorunuz veya öneriniz varsa, lütfen bir konu açın.
