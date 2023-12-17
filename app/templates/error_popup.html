@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Popup</title>
+
+    <!-- Add Bootstrap CSS (you need to include Bootstrap in your project) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Optional: Add custom CSS -->
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8f9fa;
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        h1 {
+            color: #dc3545;
+        }
+
+        .error-icon {
+            width: 100vw; /* Full width */
+            height: 100vh; /* Full height */
+            max-width: 500px; /* Adjust the max width as needed */
+            max-height: 500px; /* Adjust the max height as needed */
+            margin-bottom: 20px;
+        }
+
+        /* Additional styles as needed */
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <img src="/static/images/error-icon.svg" alt="Error Icon" class="error-icon">
+        <h1>An error occurred</h1>
+        <p>{{ message }}</p>
+        <script>
+            // Show a JavaScript popup toast message
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(function() {
+                    window.location.href = "{{ url_for('index') }}";  // Redirect to the main page after 15 seconds
+                }, 15000);  // 15 seconds delay
+            });
+        </script>
+    </div>
+
+    <!-- Optional: Add Bootstrap JS (you need to include Bootstrap in your project) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Your custom JavaScript code here -->
+</body>
+</html>

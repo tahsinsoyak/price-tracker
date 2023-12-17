@@ -23,8 +23,10 @@ def trendyol_scraper(product_url):
         title = title_element.text.strip() if title_element else 'Başlık bulunamadı'
 
         # Fiyat elementini bul
-        price_element = soup.find('div', {'class': 'pr-bx-w'})
+        price_element = soup.find('span', {'class': 'prc-dsc'})
         price = price_element.text.strip() if price_element else 'Fiyat bulunamadı'
+
+
 
         # Resim elementlerini bul ve temizle
         image_elements = soup.find('div', {'class': 'gallery-container'}).find_all('img', {'loading': 'lazy'})
@@ -34,26 +36,22 @@ def trendyol_scraper(product_url):
             images[i] = images[i].replace('mnresize/1200/1800/', '')
 
         # Teknik özellikleri veya diğer bilgileri çıkartma
-        tech_spec_data = {}
-        tech_spec_section = soup.find('section', {'class': 'details-section'})
+        # Teknik özellikleri veya diğer bilgileri çıkartma
+        # Teknik özellikleri veya diğer bilgileri çıkartma
+        tech_spec_data = ""
+        tech_spec_section = soup.find('ul', {'class': 'detail-desc-list'})
+
         if tech_spec_section:
-            counter = 0  # Sayısal indeksleme için sayaç başlat
             for li_element in tech_spec_section.find_all('li'):
                 if li_element:
-                    text_content = li_element.get_text(strip=True, separator=':')
-                    parts = text_content.split(':')
-                    
-                    # Sayısal indeksi anahtar olarak atama
-                    key = str(counter)
-                    counter += 1
-                    
-                    value = parts[-1].strip()  # Değeri almak için sondaki kısmı kullan
-                    tech_spec_data[key] = value.strip()
+                    text_content = li_element.get_text(strip=True)
+                    tech_spec_data += f"{text_content}<br>"
         else:
             tech_spec_data = None
             print("Teknik özellik bölümü sayfada bulunamadı.")
+
             
-        return {'title': title, 'price': price, 'images': images, 'tech_spec_data': tech_spec_data}
+        return {'url': product_url,'title': title, 'price': price, 'images': images, 'tech_spec_data': tech_spec_data}
     else:
         print(f"Hata: Sayfa çekilemedi. Durum Kodu: {response.status_code}")
         return None

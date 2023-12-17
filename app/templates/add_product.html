@@ -4,21 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ürün Ekleme</title>
+    <!-- Add Bootstrap CSS for a modern design -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS stil tanımlamalarını buraya ekle */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Add a loading spinner */
+        .loading-spinner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+        }
+        
+
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            display: none;
+            z-index: 1000;
+        }
+        
     </style>
 </head>
 <body>
-    <h1>Ürün Ekleme</h1>
-    <form action="{{ url_for('add_product') }}" method="post">
-        <label for="url">Ürün URL:</label>
-        <input type="text" id="url" name="url" required>
-        <br>
-        <input type="submit" value="Ürünü Ekle">
-    </form>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h1>Ürün Ekleme</h1>
+        <form action="{{ url_for('add_product') }}" method="post" id="productForm">
+            <div class="form-group">
+                <label for="url">Ürün URL:</label>
+                <input type="text" id="url" name="url" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Ürünü Ekle
+            </button>
+        </form>
+        
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toastMessage" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            Ürün başarıyla eklendi!
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // JavaScript kodlarını buraya ekle
+        // JavaScript code for showing loading spinner and toast message
+        document.getElementById('productForm').addEventListener('submit', function () {
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            // Simulate a delay (replace with actual AJAX request)
+            setTimeout(function () {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+                // Show toast message
+                document.getElementById('toastMessage').style.display = 'block';
+                // Hide toast message after 3 seconds
+                setTimeout(function () {
+                    document.getElementById('toastMessage').style.display = 'none';
+                }, 3000);
+            }, 2000);  // Replace with the actual processing time
+        });
     </script>
 </body>
 </html>
