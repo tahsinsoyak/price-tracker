@@ -7,7 +7,7 @@ Price Tracker, çeşitli e-ticaret sitelerindeki ürünlerin fiyatlarını takip
 1. Projeyi bilgisayarınıza kopyalayın.
 
 ```bash
-git clone https://github.com/kullaniciadi/price-tracker.git
+git clone https://github.com/tahsinsoyak/price-tracker.git
 cd price-tracker
 ```
 
