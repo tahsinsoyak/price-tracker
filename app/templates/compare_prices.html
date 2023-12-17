@@ -3,37 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiyat Karşılaştırması</title>
+    <title>Fiyat Karşılaştırma</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Optional: Add custom CSS -->
     <style>
-        /* CSS stil tanımlamalarını buraya ekle */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img-container {
+            margin-bottom: 10px;
+            flex: 1; /* Take up remaining height within the card */
+        }
+
+        .product-image {
+            width:  200px; /* Cover the entire width of the container */
+            height: 300px; /* Cover the entire height of the container */
+            object-fit: cover; /* Ensure the image covers the container without distortion */
+            border-radius: 8px;
+        }
+
+        .card-body {
+            flex: 1; /* Take up remaining height within the card */
+        }
+
+        .update-button {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Fiyat Karşılaştırması</h1>
-    <h2>{{ product.title }} Fiyatları</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Şirket</th>
-                <th>Fiyat</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ product.product_company }}</td>
-                <td>{{ product.price }}</td>
-            </tr>
-            {% for same_product_price in same_product_prices %}
-            <tr>
-                <td>{{ same_product_price.product_company }}</td>
-                <td>{{ same_product_price.price }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% include 'navbar.html' %}
 
-    <script>
-        // JavaScript kodlarını buraya ekle
-    </script>
+    <div class="container">
+        <h1 class="text-center m-4">Fiyat Karşılaştırma</h1>
+
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3">
+                <div class="product-card">
+                    <div class="card-img-container">
+                        <a href="{{ product.url }}" target="_blank">
+                            {% set image_list = product.images[1:-1].split(', ') %}
+                            <div class="card-img-container">
+                                {% for image_url in image_list %}
+                                    <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="product-image">
+                                {% endfor %}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <p><strong>Ürün Adı:</strong> {{ product.title }}</p>
+                            <p><strong>Fiyatı:</strong> {{ product.price }}</p>
+                            <p><strong>Şirket:</strong> {% if product.product_company == 'trendyol' %}
+                                <!-- Trendyol logo -->
+                                <img style="width:100px; margin-left:20px;" src="static/images/trendyol.png" class="img-fluid" alt="Trendyol">
+                            {% elif product.product_company == 'amazon' %}
+                                <!-- Amazon logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/amazon.png" class="img-fluid" alt="Amazon">
+                            {% else %}
+                                <!-- Default logo or other handling -->
+                                <img  style="width:100px; margin-left:20px;"src="static/images/default.png"  class="img-fluid" alt="Default">
+                        {% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Optional: Add Bootstrap JS (Bootstrap 5) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Your custom JavaScript code here -->
 </body>
 </html>

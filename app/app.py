@@ -1,13 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
-from peewee import SqliteDatabase, Model, CharField, DoesNotExist, TextField, DateTimeField
-import schedule
+from flask import Flask, render_template, request, redirect, url_for # Import Flask, render_template, and request, redirect, and url_for functions
+from peewee import SqliteDatabase, Model, CharField, DoesNotExist, TextField, DateTimeField # Import the database and model fields
+import schedule # Import the schedule library for scheduling tasks
 import time
 from datetime import datetime 
-from scrapers.amazon_scraper import amazon_scraper
-from scrapers.trendyol_scraper import trendyol_scraper
-import re
-import json
-import ast
+from scrapers.amazon_scraper import amazon_scraper # Amazon scraper
+from scrapers.trendyol_scraper import trendyol_scraper # Trendyol scraper
+
 app = Flask(__name__)
 
 # SQLite veritabanı bağlantısı
@@ -34,103 +32,99 @@ db.create_tables([Product], safe=True)
 def index():
     # Veritabanından ürünleri çek
     products = Product.select().order_by(Product.updated_at.desc())
-
     # Ürünleri HTML şablonuna gönder
     return render_template('index.html', products=products)
 
-@app.route('/compare_prices/<product_id>')
-def compare_prices(product_id):
-    # Fiyatları karşılaştırma sorgusu
-    product = Product.get_by_id(product_id)
-    same_product_prices = Product.select().where(
-        (Product.title == product.title) & 
-        (Product.product_company != product.product_company)
-    )
 
-    # Fiyat karşılaştırma sonuçlarını HTML şablonuna gönder
-    return render_template('compare_prices.html', product=product, same_product_prices=same_product_prices)
+@app.route('/compare')
+def compare_products():
+    # Fiyat karşılaştırması yapılacak ürünlerin ID'lerini al
+    product_ids = request.args.get('ids').split(',')
+    products = [Product.get_by_id(id) for id in product_ids]
+    return render_template('compare_prices.html', products=products)
 
 
 @app.route('/search', methods=['POST'])
 def search_products():
+    # Arama kelimesini al ve ürünleri bul
+    
     search_term = request.form['search']
     products = Product.select().where(Product.title.contains(search_term))
     return render_template('index.html', products=products)
 
 
-# Route to delete a product
+#  Ürünü sil
 @app.route('/delete_product/<int:id>', methods=['POST'])
 def delete_product(id):
     try:
-        # Try to get the product by ID
         product = Product.get(Product.id == id)
-        product.delete_instance()  # Delete the product from the database
-        return redirect(url_for('index'))  # Redirect to the main page after deletion
+        product.delete_instance()  # Sil
+        return redirect(url_for('index'))  #    Ana sayfaya yönlendir
     except DoesNotExist:
-        return render_template('error.html', message='Product not found')  # Handle if the product doesn't exist
+        return render_template('error.html', message='Ürün bulunamadı!')  #  Ürün bulunamadı hatası ver
 
 
 
-# Route to view product details
+#  Ürün detay sayfası
 @app.route('/product_detail/<int:id>')
 def product_detail(id):
     try:
-        # Try to get the product by ID
+        #  Ürünü ID'ye göre bul
         product = Product.get(Product.id == id)
         return render_template('product_detail.html', product=product)
     except DoesNotExist:
-        return render_template('error.html', message='Product not found')
+        return render_template('error.html', message='Ürün bulunamadı!')
 
-# Route to update prices for a specific product
+#  Ürünü güncelleme sayfası
 @app.route('/update_product_prices/<int:id>', methods=['POST'])
 def update_product_prices(id):
     try:
-        # Try to get the product by ID
+        #   Ürünü ID'ye göre bul
         product = Product.get(Product.id == id)
 
-        # Check the product's company and update prices accordingly
+        #  Ürünü güncelle
         try:
             if product.product_company == 'trendyol':
                 product_data = trendyol_scraper(product.url)
             elif product.product_company == 'amazon':
                 product_data = amazon_scraper(product.url)
             else:
-                return render_template('error.html', message='Unsupported platform')
+                return render_template('error.html', message=' Ürün bulunamadı!')
         except Exception as e:
-            # Handle the scraping error
+            #   Hata mesajı göster
             print(f"Scraping error: {str(e)}")
-            # Show a JavaScript popup toast message
-            return render_template('error_popup.html', message='An error occurred while updating prices. Please try again after 15 seconds.')
+            #  Hata mesajı göster
+            return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin. Ürünlerin bazıları güncellenmeyebilir.')
 
-        # Update the product's fields
+        # Ürünü güncelle
         product.price = product_data.get('price', '')
         product.images = str(product_data.get('images', ''))
         product.tech_spec_data = str(product_data.get('tech_spec_data', ''))
         product.updated_at = datetime.now()
         product.save()
 
-        return redirect(url_for('index'))  # Redirect to the main page after updating prices
+        return redirect(url_for('index'))  #  Ana sayfaya yönlendir
     except DoesNotExist:
-        return render_template('error.html', message='Product not found')  # Handle if the product doesn't exist
+        return render_template('error.html', message=' Ürün Bulunamadı!')  #  Ürün bulunamadı hatası ver
 
-# Create a new route for the error popup template
+#  Hata sayfası
 @app.route('/error_popup')
 def error_popup():
-    return render_template('error_popup.html', message='An error occurred. Please try again after 15 seconds.')
+    return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin. Ürünlerin bazıları güncellenmeyebilir.')
 
 def update_or_create_product(data, company):
     try:
-        # Try to get an existing product by URL
+        #  ürünün url'i ile ürün bul varmı yokmu kontrol et
         product = Product.get(Product.url == data['url'])
 
-        # If the product exists, update its fields
+        #  ürünü güncelle
         product.price = data['price']
         product.images = str(data['images'])
         product.tech_spec_data = str(data['tech_spec_data'])
         product.updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         product.save()
     except DoesNotExist:
-        # If the product doesn't exist, create a new one
+        #  ürünü oluştur
         Product.create(
             url=data['url'],
             title=data['title'],
@@ -143,28 +137,27 @@ def update_or_create_product(data, company):
         )
 
 
-# Define the route for updating prices
+#  Ürünleri güncelleme fonksiyonu
 @app.route('/update_prices', methods=['GET', 'POST'])
 def update_prices():
-    try:    # Get all products from the database
+    try:    # Ürünleri çek
         products = Product.select()
 
-        # Iterate over products and update prices based on the company
+        #  Her ürün için scraper'ı çalıştır
         for product in products:
             if product.product_company == 'amazon':
                 data = amazon_scraper(product.url)
             elif product.product_company == 'trendyol':
                 data = trendyol_scraper(product.url)
             else:
-                # Handle other platforms or show an error message
                 continue
 
-            # Update or create the product in the database
+            #  Ürünü güncelle veya oluştur
             update_or_create_product(data, product.product_company)
     except Exception as e:
-        # Handle the error and redirect to the error popup route
+        #  Hata mesajı göster
         print(f"Error: {str(e)}")
-        return render_template('error_popup.html', message='An error occurred while updating prices. Please try again after 15 seconds. Some Products may not be updated.')
+        return render_template('error_popup.html', message=' Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin. Ürünlerin bazıları güncellenmeyebilir.')
 
     return render_template('index.html', products=Product.select())
 
@@ -172,40 +165,47 @@ def update_prices():
 def add_product():
     if request.method == 'POST':
         try:
-            # Get form data
-            url = request.form['url']
+            url2 = request.form['url']
 
-            # Check the URL for the platform and use the appropriate scraper
-            if 'trendyol' in url:
-                product_data = trendyol_scraper(url)
-                product_company = 'trendyol'
-            elif 'amazon' in url:
-                product_data = amazon_scraper(url)
-                product_company = 'amazon'
-            else:
-                # Handle unsupported platforms or show an error message
-                raise Exception('Unsupported platform')
+            try:
+                # Check if product already exists
+                
+                existing_product = Product.get(url=url2)
 
-            # Store scraped data in the database
-            new_product = Product.create(
-                url=url,
-                title=product_data.get('title', ''),  # Replace with the actual key
-                price=product_data.get('price', ''),
-                images=str(product_data.get('images', '')),
-                tech_spec_data=str(product_data.get('tech_spec_data', '')),
-                created_at=datetime.now(),
-                updated_at=datetime.now(),
-                product_company=product_company
-            )
+                if existing_product:
+                    return render_template('error_popup.html', message=' Ürün zaten mevcut!')
 
-            return redirect(url_for('index'))
+            except DoesNotExist:
+                # Product doesn't exist, continue with scraping and storing
+                if 'trendyol' in url2:
+                    product_data = trendyol_scraper(url2)
+                    product_company = 'trendyol'
+                elif 'amazon' in url2:
+                    product_data = amazon_scraper(url2)
+                    product_company = 'amazon'
+                else:
+                    raise Exception(' Ürün bulunamadı!')
+
+                new_product = Product.create(
+                    url=url2,
+                    title=product_data.get('title', ''),
+                    price=product_data.get('price', ''),
+                    images=str(product_data.get('images', '')),
+                    tech_spec_data=str(product_data.get('tech_spec_data', '')),
+                    created_at=datetime.now(),
+                    updated_at=datetime.now(),
+                    product_company=product_company
+                )
+
+                return redirect(url_for('index'))
 
         except Exception as e:
-            # Handle the error and redirect to the error popup route
             print(f"Error: {str(e)}")
             return redirect(url_for('error_popup'))
 
-    return render_template('add_product.html')
+    return render_template('add_product.html', message='')
+
+
 # Flask uygulamasını çalıştırdıktan sonra zamanlanmış görevleri başlat
 if __name__ == '__main__':
     app.run(debug=True)

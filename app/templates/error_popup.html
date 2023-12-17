@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Popup</title>
-
-    <!-- Add Bootstrap CSS (you need to include Bootstrap in your project) -->
+    <title>Hata Sayfası</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Optional: Add custom CSS -->
     <style>
         body {
             margin: 0;
             background-color: #f8f9fa;
             overflow: hidden; /* Hide scrollbars */
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
 
         .container {
@@ -43,7 +44,7 @@
     {% include 'navbar.html' %}
     <div class="container">
         <img src="/static/images/error-icon.svg" alt="Error Icon" class="error-icon">
-        <h1>An error occurred</h1>
+        <h1>Bir Hata Oluştu!</h1>
         <p>{{ message }}</p>
         <script>
             // Show a JavaScript popup toast message
