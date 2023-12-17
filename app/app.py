@@ -94,7 +94,7 @@ def update_product_prices(id):
             #   Hata mesajı göster
             print(f"Scraping error: {str(e)}")
             #  Hata mesajı göster
-            return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin. Ürünlerin bazıları güncellenmeyebilir.')
+            return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin.')
 
         # Ürünü güncelle
         product.price = product_data.get('price', '')
@@ -110,7 +110,7 @@ def update_product_prices(id):
 #  Hata sayfası
 @app.route('/error_popup')
 def error_popup():
-    return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin. Ürünlerin bazıları güncellenmeyebilir.')
+    return render_template('error_popup.html', message='Bir hata oluştu. Lütfen 15 saniye sonra tekrar deneyin.')
 
 def update_or_create_product(data, company):
     try:
