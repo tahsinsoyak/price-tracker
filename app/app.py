@@ -3,8 +3,17 @@ from peewee import SqliteDatabase, Model, CharField, DoesNotExist, TextField, Da
 import schedule # Import the schedule library for scheduling tasks
 import time
 from datetime import datetime 
-from scrapers.amazon_scraper import amazon_scraper # Amazon scraper
-from scrapers.trendyol_scraper import trendyol_scraper # Trendyol scraper
+from scrapers.amazon_scraper import amazon_scraper
+from scrapers.trendyol_scraper import trendyol_scraper
+from scrapers.hepsiburada_scraper import hepsiburada_scraper
+from scrapers.defacto_scraper import defacto_scraper
+from scrapers.lcwaikiki_scraper import lcwaikiki_scraper
+from scrapers.koton_scraper import koton_scraper
+from scrapers.boyner_scraper import boyner_scraper
+from scrapers.mavi_scraper import mavi_scraper
+from scrapers.teknosa_scraper import teknosa_scraper
+from scrapers.vatan_scraper import vatan_scraper
+from scrapers.mediamarkt_scraper import mediamarkt_scraper
 
 app = Flask(__name__)
 
@@ -88,6 +97,24 @@ def update_product_prices(id):
                 product_data = trendyol_scraper(product.url)
             elif product.product_company == 'amazon':
                 product_data = amazon_scraper(product.url)
+            elif product.product_company == 'hepsiburada':
+                product_data = hepsiburada_scraper(product.url)
+            elif product.product_company == 'defacto':
+                product_data = defacto_scraper(product.url)
+            elif product.product_company == 'lcwaikiki':
+                product_data = lcwaikiki_scraper(product.url)
+            elif product.product_company == 'koton':
+                product_data = koton_scraper(product.url)
+            elif product.product_company == 'boyner':
+                product_data = boyner_scraper(product.url)
+            elif product.product_company == 'mavi':
+                product_data = mavi_scraper(product.url)
+            elif product.product_company == 'teknosa':
+                product_data = teknosa_scraper(product.url)
+            elif product.product_company == 'vatan':
+                product_data = vatan_scraper(product.url)
+            elif product.product_company == 'mediamarkt':
+                product_data = mediamarkt_scraper(product.url)
             else:
                 return render_template('error.html', message=' Ürün bulunamadı!')
         except Exception as e:
@@ -149,6 +176,24 @@ def update_prices():
                 data = amazon_scraper(product.url)
             elif product.product_company == 'trendyol':
                 data = trendyol_scraper(product.url)
+            elif product.product_company == 'hepsiburada':
+                data = hepsiburada_scraper(product.url)
+            elif product.product_company == 'defacto':
+                data = defacto_scraper(product.url)
+            elif product.product_company == 'lcwaikiki':
+                data = lcwaikiki_scraper(product.url)
+            elif product.product_company == 'koton':
+                data = koton_scraper(product.url)
+            elif product.product_company == 'boyner':
+                data = boyner_scraper(product.url)
+            elif product.product_company == 'mavi':
+                data = mavi_scraper(product.url)
+            elif product.product_company == 'teknosa':
+                data = teknosa_scraper(product.url)
+            elif product.product_company == 'vatan':
+                data = vatan_scraper(product.url)
+            elif product.product_company == 'mediamarkt':
+                data = mediamarkt_scraper(product.url)
             else:
                 continue
 
@@ -183,6 +228,33 @@ def add_product():
                 elif 'amazon' in url2:
                     product_data = amazon_scraper(url2)
                     product_company = 'amazon'
+                elif 'hepsiburada' in url2:
+                    product_data = hepsiburada_scraper(url2)
+                    product_company = 'hepsiburada'
+                elif 'defacto' in url2:
+                    product_data = defacto_scraper(url2)
+                    product_company = 'defacto'
+                elif 'lcwaikiki' in url2:
+                    product_data = lcwaikiki_scraper(url2)
+                    product_company = 'lcwaikiki'
+                elif 'koton' in url2:
+                    product_data = koton_scraper(url2)
+                    product_company = 'koton'
+                elif 'boyner' in url2:
+                    product_data = boyner_scraper(url2)
+                    product_company = 'boyner'
+                elif 'mavi' in url2:
+                    product_data = mavi_scraper(url2)
+                    product_company = 'mavi'
+                elif 'teknosa' in url2:
+                    product_data = teknosa_scraper(url2)
+                    product_company = 'teknosa'
+                elif 'vatan' in url2:
+                    product_data = vatan_scraper(url2)
+                    product_company = 'vatan'
+                elif 'mediamarkt' in url2:
+                    product_data = mediamarkt_scraper(url2)
+                    product_company = 'mediamarkt'
                 else:
                     raise Exception(' Ürün bulunamadı!')
 
