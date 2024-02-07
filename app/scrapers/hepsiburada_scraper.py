@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-def hepsiburada_scrapper(product_url):
+def hepsiburada_scraper(product_url):
     # Kullanıcı ajanları dosyasını aç ve rastgele bir kullanıcı ajanı seç
-    with open('user_agents/user-agents.txt', 'r') as file:
+    with open('scrapers/user_agents/user-agents.txt', 'r') as file:
         user_agents = file.readlines()
 
     random_user_agent = random.choice(user_agents)
@@ -20,52 +20,32 @@ def hepsiburada_scrapper(product_url):
         
         # Gerekli verileri çek ve düzenle
         title = soup.find('h1', {'id': 'product-name'}).get_text().strip()
-        print(title)
         price_wrapper = soup.find('div', {'class': 'product-price-wrapper'})
         price = price_wrapper.find('span', {'class': 'price'}).get_text().strip()
-        cleaned_price = price.replace(' ', '').replace('(Adet)', '').replace('\n', '')
-        print(cleaned_price)
+        price = f"{price.split()[0]} TL"
         images = []
+        img_div = soup.find('div', {'id': 'productDetailsCarousel'})
+        img_tags = img_div.find_all('img')
+        for img_tag in img_tags:
+            # Check if 'data-src' attribute exists before accessing it
+            if 'data-src' in img_tag.attrs:
+                image_url = img_tag['data-src']
+                images.append(image_url)
 
-        # Sayfadaki tüm ürün resimlerini bul ve listeye ekle
-        li_elements = soup.find_all('li', {'class': 'image'})
-        for li_element in li_elements:
-            # li öğesi içinde img etiketini bul
-            img = li_element.find('img')
-
-            # Eğer img etiketi bulunduysa ve 'src' özelliği varsa
-            if img and 'src' in img.attrs:
-                src = img['src']
-                images.append(src)
-
+        tech_spec_data = ''
         # Ürünün teknik özelliklerini içeren tabloyu bul
-        tech_spec_table = soup.find('table', {'id': 'productDetails_techSpec_section_1'})
-
-        # Eğer tablo bulunduysa
-        if tech_spec_table:
-            tech_spec_data = ""
-
+        tech_spec_table = soup.find('div', {'id': 'productTechSpecContainer'})
+        # find tables
+        tables = tech_spec_table.find_all('table')
+        for table in tables:
             # Tablodaki her satır için
-            for row in tech_spec_table.find_all('tr'):
+            for row in table.find_all('tr'):
                 key = row.find(['th']).get_text().strip()
                 value = row.find(['td']).get_text().strip()
                 tech_spec_data += f"{key}: {value}<br>"
-        else:
-            # Eğer tablo bulunamazsa
-            tech_spec_data = None
-            print("Teknik özellik bölümü sayfada bulunamadı.")
-
         # Elde edilen verileri sözlük olarak döndür
         return {'url': product_url,'title': title, 'price': price, 'images': images, 'tech_spec_data': tech_spec_data}
     else:
         # İstek başarısızsa
         print(f"Hata: Sayfa çekilemedi. Durum Kodu: {response.status_code}")
         return None
-
-
-
-#test this function
-    
-product_url = 'https://www.hepsiburada.com/jbl-tune-flex-nc-kulakici-tws-ghost-beyaz-p-HBCV00004BHJYR?magaza=MediaMarkt'
-
-hepsiburada_scrapper(product_url)
