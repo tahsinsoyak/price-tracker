@@ -35,9 +35,7 @@ def trendyol_scraper(product_url):
         for i in range(len(images)):
             images[i] = images[i].replace('mnresize/1200/1800/', '')
 
-        # Teknik özellikleri veya diğer bilgileri çıkartma
-        # Teknik özellikleri veya diğer bilgileri çıkartma
-        # Teknik özellikleri veya diğer bilgileri çıkartma
+        # Teknik özellikleri veya diğer bilgileri çıkartmak için
         tech_spec_data = ""
         tech_spec_section = soup.find('ul', {'class': 'detail-desc-list'})
 
