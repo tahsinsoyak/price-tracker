@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -79,11 +80,57 @@
             display: none;
             z-index: 1000;
         }
+        .logo-slider .item img {
+            width: 100px; /* Set the desired width for the images */
+            height: auto; /* Maintain aspect ratio */
+            cursor: pointer;
+        }
         
     </style>
 </head>
 <body>
     {% include 'navbar.html' %}
+
+    <div class="logo-slider">
+        <div class="owl-carousel owl-theme pt-3">
+            <div class="item" onclick="window.open('https://www.trendyol.com', '_blank')">
+                <img src="static/images/trendyol.png" class="img-fluid" alt="Trendyol">
+            </div>
+            <div class="item" onclick="window.open('https://www.amazon.com.tr', '_blank')">
+                <img src="static/images/amazon.png" class="img-fluid" alt="Amazon">
+            </div>
+            <div class="item" onclick="window.open('https://www.hepsiburada.com', '_blank')">
+                <img src="static/images/hepsiburada.png" class="img-fluid" alt="Hepsiburada">
+            </div>
+            <div class="item" onclick="window.open('https://www.defacto.com.tr', '_blank')">
+                <img src="static/images/defacto.png" class="img-fluid" alt="Defacto">
+            </div>
+            <div class="item" onclick="window.open('https://www.lcwaikiki.com', '_blank')">
+                <img src="static/images/lcwaikiki.png" class="img-fluid" alt="LCWaikiki">
+            </div>
+            <div class="item" onclick="window.open('https://www.koton.com', '_blank')">
+                <img src="static/images/koton.png" class="img-fluid" alt="Koton">
+            </div>
+            <div class="item" onclick="window.open('https://www.boyner.com.tr', '_blank')">
+                <img src="static/images/boyner.png" class="img-fluid" alt="Boyner">
+            </div>
+            <div class="item" onclick="window.open('https://www.mavi.com', '_blank')">
+                <img src="static/images/mavi.png" class="img-fluid" alt="Mavi">
+            </div>
+            <div class="item" onclick="window.open('https://www.teknosa.com', '_blank')">
+                <img src="static/images/teknosa.png" class="img-fluid" alt="Teknosa">
+            </div>
+            <div class="item" onclick="window.open('https://www.vatanbilgisayar.com', '_blank')">
+                <img src="static/images/vatan.png" class="img-fluid" alt="Vatan">
+            </div>
+            <div class="item" onclick="window.open('https://www.mediamarkt.com.tr', '_blank')">
+                <img src="static/images/mediamarkt.png" class="img-fluid" alt="Media Markt">
+            </div>
+
+            <!-- Add other logos as needed -->
+        </div>
+    </div>
+
     <div class="container">
         <h1>Ürün Ekleme</h1>
         <form action="{{ url_for('add_product') }}" method="post" id="productForm">
@@ -133,6 +180,30 @@
                     document.getElementById('toastMessage').style.display = 'none';
                 }, 3000);
             }, 2000);  // Replace with the actual processing time
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: false,
+                autoplay: true,
+                autoplayTimeout: 2000, // Adjust the speed of the slider
+                responsive: {
+                    0: {
+                        items: 2
+                    },
+                    600: {
+                        items: 4
+                    },
+                    1000: {
+                        items: 6
+                    }
+                }
+            });
         });
     </script>
 </body>
