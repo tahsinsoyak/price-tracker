@@ -48,12 +48,26 @@
             <div class="row">
                 <div class="col-md-3">
                     {% set image_list = product.images[1:-1].split(', ') %}
-                    <div class="card-img-container">
-                        {% for image_url in image_list %}
-                            <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="img-fluid product-image">
-                        {% endfor %}
+                    <div id="productImageCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image_url in image_list %}
+                                <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+                                    <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="d-block w-100 product-image">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#productImageCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#productImageCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
+                
+                
                 <div class="col-md-9">
                     <div class="card-body">
                         <p><strong>Fiyat:</strong> {{ product.price }}</p>

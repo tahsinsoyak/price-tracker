@@ -6,7 +6,7 @@ import random
 # Trendyol ürün bilgileri çıkartma fonksiyonu
 def trendyol_scraper(product_url):
     # Kullanıcı agent'ları dosyasından oku
-    with open('scrapers/user_agents/user-agents.txt', 'r') as file:
+    with open('user_agents/user-agents.txt', 'r') as file:
         user_agents = file.readlines()
 
     # Rastgele bir kullanıcı agent seç

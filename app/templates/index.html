@@ -124,17 +124,46 @@
                             {% elif product.product_company == 'amazon' %}
                                 <!-- Amazon logo -->
                                 <img src="static/images/amazon.png" class="img-fluid" alt="Amazon">
+                            {% elif product.product_company == 'hepsiburada' %}
+                                <!-- Hepsiburada logo -->
+                                <img src="static/images/hepsiburada.png" class="img-fluid" alt="Hepsiburada">
+                            {% elif product.product_company == 'defacto' %}
+                                <!-- Defacto logo -->
+                                <img src="static/images/defacto.png" class="img-fluid" alt="Defacto">
+                            {% elif product.product_company == 'lcwaikiki' %}
+                                <!-- LC Waikiki logo -->
+                                <img src="static/images/lcwaikiki.png" class="img-fluid" alt="LC Waikiki">
+                            {% elif product.product_company == 'koton' %}
+                                <!-- Koton logo -->
+                                <img src="static/images/koton.png" class="img-fluid" alt="Koton">
+                            {% elif product.product_company == 'boyner' %}
+                                <!-- Boyner logo -->
+                                <img src="static/images/boyner.png" class="img-fluid" alt="Boyner">
+                            {% elif product.product_company == 'mavi' %}
+                                <!-- Mavi logo -->
+                                <img src="static/images/mavi.png" class="img-fluid" alt="Mavi">
+                            {% elif product.product_company == 'teknosa' %}
+                                <!-- Teknosa logo -->
+                                <img src="static/images/teknosa.png" class="img-fluid" alt="Teknosa">
+                            {% elif product.product_company == 'vatan' %}
+                                <!-- Vatan logo -->
+                                <img src="static/images/vatan.png" class="img-fluid" alt="Vatan">
+                            {% elif product.product_company == 'mediamarkt' %}
+                                <!-- MediaMarkt logo -->
+                                <img src="static/images/mediamarkt.png" class="img-fluid" alt="MediaMarkt">
                             {% else %}
                                 <!-- Default logo or other handling -->
                                 <img src="static/images/default.png"  class="img-fluid" alt="Default">
+                            
                         {% endif %}
                         </td>
                         <td class="col-md-2">
                             <a href="{{ product.url }}" target="_blank">
                                 {% set image_list = product.images[1:-1].split(', ') %}
-                                {% for image_url in image_list %}
-                                    <img src="{{ image_url.strip(" '") }}" alt="Product Image" style="max-width: 200px; max-height: 80px;" class="product-image">
-                                {% endfor %}
+                                {% if image_list %}
+                                    <img src="{{ image_list[0].strip(" '") }}" alt="Product Image" style="max-width: 200px; max-height: 80px;" class="product-image">
+                                {% endif %}
+
                             </a>
                         </td>
                         <td class="col-md-2">{{ product.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>

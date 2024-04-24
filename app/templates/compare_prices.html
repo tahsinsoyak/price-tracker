@@ -61,14 +61,24 @@
             <div class="col-md-3">
                 <div class="product-card">
                     <div class="card-img-container">
-                        <a href="{{ product.url }}" target="_blank">
                             {% set image_list = product.images[1:-1].split(', ') %}
-                            <div class="card-img-container">
-                                {% for image_url in image_list %}
-                                    <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="product-image">
-                                {% endfor %}
-                            </div>
-                        </a>
+                                <div id="productImageCarousel{{ product.id }}" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% for image_url in image_list %}
+                                            <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+                                                <img src="{{ image_url.strip(" '") }}" alt="Product Image" class="d-block w-100 product-image">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#productImageCarousel{{ product.id }}" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#productImageCarousel{{ product.id }}" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -80,6 +90,32 @@
                             {% elif product.product_company == 'amazon' %}
                                 <!-- Amazon logo -->
                                 <img  style="width:100px; margin-left:20px;" src="static/images/amazon.png" class="img-fluid" alt="Amazon">
+                            {% elif product.product_company == 'hepsiburada' %}
+                                <!-- Hepsiburada logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/hepsiburada.png" class="img-fluid" alt="Hepsiburada">
+                            {% elif product.product_company == 'defacto' %}
+                                <!-- Defacto logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/defacto.png" class="img-fluid" alt="Defacto">
+                            {% elif product.product_company == 'koton' %}
+                                <!-- Morhipo logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/koton.png" class="img-fluid" alt="Koton">
+                            {% elif product.product_company == 'boyner' %}
+                                <!-- Boyner logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/boyner.png" class="img-fluid" alt="Boyner">
+                            {% elif product.product_company == 'teknosa' %}
+                                <!-- Teknosa logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/teknosa.png" class="img-fluid" alt="Teknosa">
+                            {% elif product.product_company == 'mavi' %}
+                                <!-- Mavi logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/mavi.png" class="img-fluid" alt="Mavi">
+                            {% elif product.product_company == 'vatan' %}
+                                <!-- Vatan logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/vatan.png" class="img-fluid" alt="Vatan">
+                            {% elif product.product_company == 'mediamarkt' %}
+                                <!-- Mediamarkt logo -->
+                                <img  style="width:100px; margin-left:20px;" src="static/images/mediamarkt.png" class="img-fluid" alt="Mediamarkt">
+                            
+                            
                             {% else %}
                                 <!-- Default logo or other handling -->
                                 <img  style="width:100px; margin-left:20px;"src="static/images/default.png"  class="img-fluid" alt="Default">
