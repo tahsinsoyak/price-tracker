@@ -1,51 +1,70 @@
 # Price Tracker
 
-Price Tracker, çeşitli e-ticaret sitelerindeki ürünlerin fiyatlarını takip etmek için kullanılan bir web uygulamasıdır. Bu uygulama, Python 3.11 üzerinde çalışır.
+Price Tracker is a web application used to track product prices on various e-commerce websites. This application runs on Python 3.11.
 
-## Kurulum
+## Features
 
-1. Projeyi bilgisayarınıza kopyalayın.
+- Track product prices on popular e-commerce sites: Amazon, Trendyol, Hepsiburada, Defacto, LC Waikiki, Koton, Boyner, Mavi, Teknosa, Vatan, and Mediamarkt.
+- Add, delete, update, and search for products.
+- Scheduled task to regularly update product prices and specifications.
+- User-friendly interface.
 
-```bash
-git clone https://github.com/tahsinsoyak/price-tracker.git
-cd price-tracker
-```
+## Installation
 
-2. Virtual environment oluşturun ve aktif edin.
+1. Clone the project to your computer.
 
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-``` 
+    ```bash
+    git clone https://github.com/tahsinsoyak/price-tracker.git
+    cd price-tracker
+    ```
 
-3. Gerekli paketleri yükleyin.
+2. Create and activate a virtual environment.
 
-```bash
-cd .\app\
-pip install -r requirements.txt
-```
+    ```bash
+    python -m venv venv
+    .\venv\Scripts\activate
+    ``` 
 
-4. Uygulamayı çalıştırın.
+3. Install the required packages.
 
-```bash
-python app.py
-```
+    ```bash
+    cd .\app\
+    pip install -r requirements.txt
+    ```
 
-## Kullanım
-Tarayıcınızdan http://127.0.0.1:5000/ adresine gidin.
-Ürünleri ekleyin ve fiyat değişikliklerini takip edin.
+4. Run the application.
 
-## Lisans
-[MIT](https://choosealicense.com/licenses/mit/)
+    ```bash
+    python app.py
+    ```
 
-## Ekran Görüntüleri
+## Usage
+
+Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/) in your browser. Add products and track price changes.
+
+## Versions
+
+### Version 1.1
+- Added price tracking feature for popular e-commerce websites such as Amazon, Trendyol, Hepsiburada, Defacto, LC Waikiki, Koton, Boyner, Mavi, Teknosa, Vatan, and Mediamarkt.
+
+### Version 1.0 - First Release
+- Products are now stored using SQLite database.
+- Added functionality for adding, deleting, updating, and searching for products.
+- Scheduled task added to regularly update product prices and specifications.
+- User interface designed to be simple and user-friendly.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Screenshots
+
 ![image](https://github.com/tahsinsoyak/price-tracker/assets/54424377/b382d82e-0327-4107-a2c4-f51801925916)
 ![image](https://github.com/tahsinsoyak/price-tracker/assets/54424377/101f683b-cb12-46b5-a8a3-9a8f557acacf)
 ![image](https://github.com/tahsinsoyak/price-tracker/assets/54424377/48fe9627-b68c-49e1-86df-9fb4d8950646)
 ![image](https://github.com/tahsinsoyak/price-tracker/assets/54424377/390a420d-dc38-4a8c-af4e-5dfd29e3818d)
 ![image](https://github.com/tahsinsoyak/price-tracker/assets/54424377/7eac3602-07f4-4b0a-b9ee-4da18b5f987d)
 
+## Support
 
-## Destek
-Eğer bu projeyi beğendiyseniz, lütfen ⭐️ ile işaretleyin. Ayrıca, herhangi bir sorunuz veya öneriniz varsa, lütfen bir konu açın.
-
+If you like this project, please give it a ⭐️. Also, if you have any questions or suggestions, please open an issue.
